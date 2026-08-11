@@ -9,18 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper: #FBF6EC;
-    --paper-card-1: #F6E9D8;
-    --paper-card-2: #EFE6D0;
-    --paper-card-3: #F3E1D6;
-    --paper-card-4: #E9E4D4;
-    --ink: #2E2A3D;
-    --ink-soft: #756E82;
-    --accent: #A8432E;
-    --accent-soft: #D98A73;
+    --paper: #E7E7EC;
+    --paper-card-1: #DEDCE6;
+    --paper-card-2: #E3E1EA;
+    --paper-card-3: #DAD8E4;
+    --paper-card-4: #E0DEE8;
+    --ink: #2C2A36;
+    --ink-soft: #6E6B7D;
+    --accent: #6C4AB6;
+    --accent-soft: #9B80D6;
     --sage: #7C8B6F;
-    --gold: #C08A2E;
-    --line: #E4D9C4;
+    --gold: #6C4AB6;
+    --line: #D3D1DC;
   }
 
   *{ box-sizing: border-box; }
@@ -30,7 +30,7 @@
   body{
     margin:0;
     background:
-      radial-gradient(ellipse at top, #ffffff 0%, var(--paper) 55%);
+      radial-gradient(ellipse at top, #f4f4f7 0%, var(--paper) 55%);
     color: var(--ink);
     font-family: 'Vazirmatn', sans-serif;
     min-height: 100vh;
@@ -140,7 +140,7 @@
   }
   input[type=text]:focus, textarea:focus{
     border-color: var(--accent-soft);
-    box-shadow: 0 0 0 3px rgba(168,67,46,0.12);
+    box-shadow: 0 0 0 3px rgba(108,74,182,0.14);
   }
   textarea{
     resize: vertical;
@@ -168,7 +168,7 @@
     cursor: pointer;
     transition: transform .12s ease, background .15s ease;
   }
-  button.submit:hover{ background: #8f3823; }
+  button.submit:hover{ background: #5a3a99; }
   button.submit:active{ transform: scale(0.97); }
   button.submit:disabled{ opacity: 0.6; cursor: default; }
   button.submit:focus-visible{ outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -263,6 +263,13 @@
     color: var(--accent);
   }
 
+  .note .date-line{
+    font-size: 11px;
+    color: var(--ink-soft);
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
   @keyframes pin-in{
     from{ opacity: 0; transform: translateY(-14px) scale(0.94); }
     to{ opacity: 1; transform: translateY(0) scale(1); }
@@ -324,7 +331,7 @@
   <div class="board" id="board"></div>
   <div class="empty-state" id="emptyState" style="display:none;">هنوز هیچ یادگاری‌ای نیست. اولین نفر باش!</div>
 
-  <footer>ساخته شده با ❤️</footer>
+  <footer>ساخته شده با 🖤 توسط tjfarhad</footer>
 </div>
 
 <script type="module">
@@ -356,7 +363,7 @@
   const statusMsg = document.getElementById("statusMsg");
 
   function timeAgo(date){
-    if(!date) return "";
+    if(!date) return "همین الان";
     const diffMs = Date.now() - date.getTime();
     const mins = Math.floor(diffMs / 60000);
     if(mins < 1) return "همین الان";
@@ -366,6 +373,11 @@
     const days = Math.floor(hours / 24);
     if(days < 30) return `${days} روز پیش`;
     return date.toLocaleDateString("fa-IR");
+  }
+
+  function fullDate(date){
+    if(!date) return "";
+    return date.toLocaleDateString("fa-IR", { year: "numeric", month: "long", day: "numeric" });
   }
 
   function escapeHtml(str){
@@ -396,6 +408,7 @@
             <span class="name">${escapeHtml(name)}</span>
             <span>${timeAgo(date)}</span>
           </div>
+          <div class="date-line">${fullDate(date)}</div>
         </div>
       `;
     }).join("");
